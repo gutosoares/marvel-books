@@ -13,27 +13,9 @@ import {
 } from '@material-ui/core'
 import logo from '../../assets/MarvelLogo.svg'
 import { fetchComics } from '../../services/comics'
-import { Loading } from '../../components'
+import { Loading, HeroContent } from '../../components'
 
 const useStyles = makeStyles(theme => ({
-  heroContent: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(1),
-    padding: theme.spacing(8, 0, 6),
-    width: '100%',
-  },
-  heroContainerLogo: {
-    maxWidth: '500px',
-    margin: '0 auto',
-  },
-  heroLogo: {
-    width: '100%',
-  },
-  heroContentSubtitle: {
-    marginTop: theme.spacing(2),
-    color: '#ff677d',
-    fontWeight: 300
-  },
   cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
@@ -108,23 +90,17 @@ function Main({ history }) {
   return (
     <Fragment>
       {loading ? <Loading /> : null }
-      <div className={classes.heroContent}>
-        <Container maxWidth="sm">
-          <div className={classes.heroContainerLogo}>
-            <img className={classes.heroLogo} src={logo} alt="Marvel Books" />
-          </div>
-          <Typography className={classes.heroContentSubtitle} variant="h5" align="center" paragraph>
-            Melhor <strong>loja</strong> online para comprar os melhores <strong>quadrinhos</strong> da Marvel
-          </Typography>
-        </Container>
-        <Snackbar
+      <HeroContent
+        logo={logo}
+        altLogo="Marvel Comics"
+        title="Melhor loja online para comprar os melhores quadrinhos da Marvel" />
+      <Container className={classes.cardGrid} maxWidth="md">
+      <Snackbar
           open={snackbar}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           autoHideDuration={6000}
           onClose={() => handleClose()}
           message="This is a success message!" />
-      </div>
-      <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={4}>
           { comics.map(comic => (
             <Grid item key={comic.id} xs={12} sm={6} md={4}>
