@@ -1,11 +1,11 @@
-import Input from './Input'
 import Header from './Header'
 import Footer from './Footer'
 import Loading from './Loading'
+import HeroContent from './HeroContent'
 
-export { 
-  Input,
+export {
   Header,
   Footer,
-  Loading
+  Loading,
+  HeroContent
 }
