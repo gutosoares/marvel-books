@@ -18,6 +18,7 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-between',
   },
   toolbarTitle: {
+    fontFamily: '"Bangers", cursive',
     color: '#fff',
     textDecoration: 'none',
     flex: 1
@@ -37,12 +38,12 @@ function Header() {
               variant="h4"
               noWrap
               className={classes.toolbarTitle}>
-              MBooks
+              MComics
             </Typography>
           </Link>
           <Link to="/checkout">
             <IconButton>
-              <Badge color="secondary" badgeContent={1}>
+              <Badge color="secondary" badgeContent={0}>
                 <ShoppingCartOutlined
                   className={classes.icon}
                   fontSize="large" />
