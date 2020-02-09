@@ -31,7 +31,7 @@ function Footer() {
     <footer className={classes.footer}>
       <Container maxWidth="sm">
         <Typography variant="body1" align="center">
-          Marvel Books
+          Marvel Comcis
         </Typography>
         <Copyright />
       </Container>
