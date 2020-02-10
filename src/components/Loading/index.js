@@ -9,7 +9,7 @@ function Loading() {
       <ReactLoading className="loading" type="spin" color="#000" />
     </div>
   )
-} 
+}
 
 export default Loading
 

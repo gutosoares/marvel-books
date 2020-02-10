@@ -9,7 +9,6 @@ import { makeStyles } from '@material-ui/core'
 import Routes from './routes'
 import store from './store'
 
-
 import Header from './components/Header'
 import Footer from './components/Footer'
 
