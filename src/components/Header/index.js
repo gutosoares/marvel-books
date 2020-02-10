@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { AppBar, Badge, Toolbar, Typography, IconButton } from '@material-ui/core';
 import { ShoppingCartOutlined } from '@material-ui/icons'
@@ -21,11 +22,12 @@ const useStyles = makeStyles(() => ({
     fontFamily: '"Bangers", cursive',
     color: '#fff',
     textDecoration: 'none',
-    flex: 1
+    flex: 1,
+    overflow: 'inherit'
   }
 }))
 
-function Header() {
+function Header({ comics }) {
   const classes = useStyles()
 
   return (
@@ -43,7 +45,7 @@ function Header() {
           </Link>
           <Link to="/checkout">
             <IconButton>
-              <Badge color="secondary" badgeContent={0}>
+              <Badge color="secondary" badgeContent={comics.length}>
                 <ShoppingCartOutlined
                   className={classes.icon}
                   fontSize="large" />
@@ -56,4 +58,4 @@ function Header() {
   )
 }
 
-export default Header
+export default connect(state => ({ comics: state }))(Header)

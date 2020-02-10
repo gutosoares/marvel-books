@@ -1,4 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
+import { connect } from 'react-redux'
+import * as ShoppingCartActions from '../../store/actions'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Button,
@@ -8,8 +10,7 @@ import {
   Card,
   CardMedia,
   CardActions,
-  CardContent,
-  Snackbar
+  CardContent
 } from '@material-ui/core'
 import logo from '../../assets/MarvelLogo.svg'
 import { fetchComics } from '../../services/comics'
@@ -44,13 +45,12 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function Main({ history }) {
+function Main({ history, dispatch }) {
   const classes = useStyles()
 
   const [comics, setComics] = useState([])
   const [comicsInfo, setComicsInfo] = useState({})
   const [loading, setLoading] = useState(false)
-  const [snackbar, setSnackbar] = useState(false)
 
   useEffect(() => {
     async function fetch() {
@@ -73,20 +73,6 @@ function Main({ history }) {
     fetch()
   }, [])
 
-  function handleClose(event, reason) {
-    if (reason === 'clickaway') {
-      return
-    }
-
-    setSnackbar(false)
-  }
-
-  function addToCart(comic) {
-    setSnackbar(false)
-
-    console.log('comic add to shopping cart', comic)
-  }
-
   return (
     <Fragment>
       {loading ? <Loading /> : null }
@@ -95,19 +81,16 @@ function Main({ history }) {
         altLogo="Marvel Comics"
         title="Melhor loja online para comprar os melhores quadrinhos da Marvel" />
       <Container className={classes.cardGrid} maxWidth="md">
-      <Snackbar
-          open={snackbar}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          autoHideDuration={6000}
-          onClose={() => handleClose()}
-          message="This is a success message!" />
         <Grid container spacing={4}>
           { comics.map(comic => (
             <Grid item key={comic.id} xs={12} sm={6} md={4}>
               <Card className={classes.card}>
                 <CardMedia
                   className={classes.cardMedia}
-                  image={comic.thumbnail? `${comic.thumbnail.path}.${comic.thumbnail.extension}` : 'https://source.unsplash.com/random'}
+                  image={
+                    comic.thumbnail
+                    ? `${comic.thumbnail.path}.${comic.thumbnail.extension}`
+                    : 'https://source.unsplash.com/random'}
                   title="Image title"
                 />
                 <CardContent className={classes.cardContent}>
@@ -133,7 +116,7 @@ function Main({ history }) {
                     size="small"
                     color="secondary"
                     variant="contained"
-                    onClick={() => addToCart(comic)}
+                    onClick={() => dispatch(ShoppingCartActions.addComicToShoppingCart(comic))}
                   >
                     Comprar
                   </Button>
@@ -147,4 +130,4 @@ function Main({ history }) {
   )
 }
 
-export default Main
+export default connect()(Main)

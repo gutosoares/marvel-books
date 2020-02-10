@@ -1,11 +1,14 @@
 import './App.css'
 
 import React from 'react'
+import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
 import Container from '@material-ui/core/Container'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import Routes from './routes'
 import { makeStyles } from '@material-ui/core'
+import Routes from './routes'
+import store from './store'
+
 
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -24,16 +27,18 @@ function App() {
 
   return (
     <Router>
-      <div className={classes.root}>
-        <CssBaseline />
-        <Header />
-        <Container
-          component="main"
-          className={classes.main}>
-          <Routes />
-        </Container>
-        <Footer />
-      </div>
+      <Provider store={store}>
+        <div className={classes.root}>
+          <CssBaseline />
+          <Header />
+          <Container
+            component="main"
+            className={classes.main}>
+            <Routes />
+          </Container>
+          <Footer />
+        </div>
+      </Provider>
     </Router>
   )
 }

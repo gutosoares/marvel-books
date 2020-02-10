@@ -1,9 +1,11 @@
 import React, { Fragment, useState, useEffect } from 'react'
+import { connect } from 'react-redux'
+import * as ShoppingCartActions from '../../store/actions'
 import { Container, Button, Typography, Grid } from '@material-ui/core'
 import { Loading } from '../../components'
 import { makeStyles } from '@material-ui/core/styles'
 import { ShoppingCartOutlined } from '@material-ui/icons'
-import { useParams } from 'react-router-dom'  
+import { useParams } from 'react-router-dom'
 import { fetchComicById } from '../../services/comics'
 
 const useStyle = makeStyles(theme => ({
@@ -45,7 +47,7 @@ const useStyle = makeStyles(theme => ({
   }
 }))
 
-function Details({ history }) {
+function Details({ history, dispatch }) {
   const { id } = useParams()
   const classes = useStyle()
 
@@ -94,10 +96,10 @@ function Details({ history }) {
       <Container maxWidth="lg">
         <div className={classes.comicDetail}>
           <div className={classes.comicImage}>
-            <img 
-              className={classes.cover} 
-              src={`${comic.images[0].path}.${comic.images[0].extension}`} 
-              alt={comic.title} />          
+            <img
+              className={classes.cover}
+              src={`${comic.images[0].path}.${comic.images[0].extension}`}
+              alt={comic.title} />
           </div>
           <div className={classes.comicInfo}>
             <div>
@@ -138,7 +140,7 @@ function Details({ history }) {
               </Typography>
             </div>
             <div className={classes.comicActions}>
-              <Button 
+              <Button
                 color="primary"
                 variant="text"
                 onClick={() => history.push('/')}
@@ -148,7 +150,7 @@ function Details({ history }) {
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={() => {}}
+                onClick={() => dispatch(ShoppingCartActions.addComicToShoppingCart(comic))}
                 endIcon={<ShoppingCartOutlined />}
               >
                 Comprar
@@ -161,4 +163,4 @@ function Details({ history }) {
   )
 }
 
-export default Details
+export default connect()(Details)

@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react'
+import { connect } from 'react-redux'
+import * as ShoppingCartActions from '../../store/actions'
 import {
   Button,
   Container,
@@ -15,8 +17,6 @@ import { DeleteOutlined } from '@material-ui/icons'
 import { HeroContent } from '../../components'
 import { makeStyles } from '@material-ui/core/styles'
 
-const comics = [1, 2, 3]
-
 const useStyle = makeStyles(() => ({
   comicsList: {
     width: '100%',
@@ -25,73 +25,114 @@ const useStyle = makeStyles(() => ({
   comicsListItem: {
     color: '#E2E8F0',
   },
-  inline: {
+  price: {
+    color: '#fff',
     display: 'inline',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
   actions: {
     display: 'flex',
     justifyContent: 'flex-end',
     marginTop: 30,
+    marginBottom: 30,
+  },
+  totalValue: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    color: '#fafafa'
+  },
+  emptyContent: {
+    color: '#fafafa',
   }
 }))
 
-function Checkout({ history }) {
+function Checkout({ history, comics, dispatch }) {
   const classes = useStyle()
+
+  function checkout() {
+    dispatch(ShoppingCartActions.checkoutShoppingCart())
+    history.push('/')
+  }
+
+  function totalValue() {
+    return comics.reduce((acc, value) => {
+      return acc + value.prices[0].price
+    }, 0)
+  }
 
   return (
     <Fragment>
       <HeroContent
         title="Finalize o seu pedido" />
       <Container maxWidth="md">
-        <List className={classes.comicsList}>
-          {comics.map(comic => (
-            <ListItem alignItems="flex-start" className={classes.comicsListItem}>
-              <ListItemAvatar>
-                <Avatar alt="Remy Sharp" variant="square" src="http://i.annihil.us/u/prod/marvel/i/mg/c/00/5db8435bf1d1b.jpg" />
-              </ListItemAvatar>
+      { comics.length ? (
+        <Fragment>
+          <List className={classes.comicsList}>
+            {comics.map((comic, index) => (
+              <ListItem key={index} alignItems="flex-start" className={classes.comicsListItem}>
+                <ListItemAvatar>
+                  <Avatar alt={comic.title} variant="square" src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={comic.title}
+                  secondary={
+                    <Fragment>
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        className={classes.price}
+                        color="textSecondary"
+                      >
+                        ${comic.prices[0].price}
+                      </Typography>
+                    </Fragment>
+                  }
+                />
+                <ListItemSecondaryAction>
+                  <IconButton edge="end" aria-label="delete" onClick={() => dispatch(ShoppingCartActions.removeComicToShoppingCart(index))}>
+                    <DeleteOutlined />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+            <ListItem>
               <ListItemText
-                primary="Future Fight Firsts: Crescent And Io (2019) #1"
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      className={classes.inline}
-                      color="textSecondary"
-                    >
-                      Marvel
-                    </Typography>
-                    {" — $4.99"}
-                  </React.Fragment>
-                }
+                className={classes.totalValue}
+                primary="Valor total"
               />
               <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="delete">
-                  <DeleteOutlined />
-                </IconButton>
+                <Typography className={classes.totalValue}>
+                  ${totalValue().toFixed(2)}
+                </Typography>
               </ListItemSecondaryAction>
             </ListItem>
-          ))}
-        </List>
-        <div className={classes.actions}>
-          <Button
-          color="primary"
-          variant="text"
-          onClick={() => history.push('/')}
-        >
-          Voltar
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {}}
-        >
-          Finalizar pedido
-        </Button>
-        </div>
+          </List>
+          <div className={classes.actions}>
+            <Button
+              color="primary"
+              variant="text"
+              onClick={() => history.push('/')}
+            >
+              Voltar
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => checkout()}
+            >
+              Finalizar pedido
+            </Button>
+          </div>
+        </Fragment>
+      ) : (
+        <Typography className={classes.emptyContent} component="h2" variant="body1" align="center">
+          Seu carrinho está vazio
+        </Typography>
+      )}
       </Container>
     </Fragment>
   )
 }
 
-export default Checkout
+export default connect(state => ({ comics: state }))(Checkout)
