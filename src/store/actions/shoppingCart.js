@@ -1,11 +1,12 @@
-function addComicToShoppingCart(comic) {
+function addShoppingCart(comic) {
+  console.log('ola')
   return {
     type: 'ADD_SHOPPING_CART',
     comic
   }
 }
 
-function removeComicToShoppingCart(index) {
+function removeShoppingCart(index) {
   return {
     type: 'REMOVE_SHOPPING_CART',
     index
@@ -19,7 +20,7 @@ function checkoutShoppingCart() {
 }
 
 export {
-  addComicToShoppingCart,
-  removeComicToShoppingCart,
+  addShoppingCart,
+  removeShoppingCart,
   checkoutShoppingCart
 }

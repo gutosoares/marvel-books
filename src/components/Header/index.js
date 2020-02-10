@@ -58,4 +58,4 @@ function Header({ comics }) {
   )
 }
 
-export default connect(state => ({ comics: state }))(Header)
+export default connect(state => ({ comics: state.shoppingCart }))(Header)

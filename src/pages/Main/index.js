@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import InfiniteScroll from 'react-infinite-scroller'
-import * as ShoppingCartActions from '../../store/actions'
+import * as ShoppingCartActions from '../../store/actions/shoppingCart'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Snackbar,
@@ -97,7 +97,7 @@ function Main({ history, dispatch }) {
 
   function addToShoppingCart(comic) {
     handleShowSnackbar()
-    dispatch(ShoppingCartActions.addComicToShoppingCart(comic))
+    dispatch(ShoppingCartActions.addShoppingCart(comic))
   }
 
   return (

@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
-import * as ShoppingCartActions from '../../store/actions'
+import * as ShoppingCartActions from '../../store/actions/shoppingCart'
 import {
   Snackbar,
   Button,
@@ -114,7 +114,7 @@ function Checkout({ history, comics, dispatch }) {
                   }
                 />
                 <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="delete" onClick={() => dispatch(ShoppingCartActions.removeComicToShoppingCart(index))}>
+                  <IconButton edge="end" aria-label="delete" onClick={() => dispatch(ShoppingCartActions.removeShoppingCart(index))}>
                     <DeleteOutlined />
                   </IconButton>
                 </ListItemSecondaryAction>
@@ -164,4 +164,4 @@ function Checkout({ history, comics, dispatch }) {
   )
 }
 
-export default connect(state => ({ comics: state }))(Checkout)
+export default connect(state => ({ comics: state.shoppingCart }))(Checkout)

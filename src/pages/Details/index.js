@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core'
 import MuiAlert from '@material-ui/lab/Alert'
 import { connect } from 'react-redux'
-import * as ShoppingCartActions from '../../store/actions'
+import * as ShoppingCartActions from '../../store/actions/shoppingCart'
 import { Loading } from '../../components'
 import { makeStyles } from '@material-ui/core/styles'
 import { ShoppingCartOutlined } from '@material-ui/icons'
@@ -115,7 +115,7 @@ function Details({ history, dispatch }) {
 
   function addToShoppingCart(comic) {
     handleShowSnackbar()
-    dispatch(ShoppingCartActions.addComicToShoppingCart(comic))
+    dispatch(ShoppingCartActions.addShoppingCart(comic))
   }
 
   return (
