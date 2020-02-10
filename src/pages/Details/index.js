@@ -1,7 +1,14 @@
 import React, { Fragment, useState, useEffect } from 'react'
+import {
+  Snackbar,
+  Container,
+  Button,
+  Typography,
+  Grid
+} from '@material-ui/core'
+import MuiAlert from '@material-ui/lab/Alert'
 import { connect } from 'react-redux'
 import * as ShoppingCartActions from '../../store/actions'
-import { Container, Button, Typography, Grid } from '@material-ui/core'
 import { Loading } from '../../components'
 import { makeStyles } from '@material-ui/core/styles'
 import { ShoppingCartOutlined } from '@material-ui/icons'
@@ -71,16 +78,29 @@ function Details({ history, dispatch }) {
     }
   })
   const [loading, setLoading] = useState(false)
+  const [open, setOpen] = useState(false)
+
+  const handleShowSnackbar = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpen(false)
+  }
 
   useEffect(() => {
     async function fetch() {
       try {
         setLoading(true)
-        const { data } = await fetchComicById(id)
+        const { data } = await fetchComicById({ id })
 
         setComic(data.results[0])
       } catch (error) {
-        console.log(error)
+        console.error(error)
       } finally {
         setLoading(false)
       }
@@ -89,16 +109,32 @@ function Details({ history, dispatch }) {
     fetch()
   }, [id])
 
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />
+  }
+
+  function addToShoppingCart(comic) {
+    handleShowSnackbar()
+    dispatch(ShoppingCartActions.addComicToShoppingCart(comic))
+  }
 
   return (
     <Fragment>
       {loading ? <Loading /> : null}
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Quadrinho adicionado ao carrinho de compras
+        </Alert>
+      </Snackbar>
       <Container maxWidth="lg">
         <div className={classes.comicDetail}>
           <div className={classes.comicImage}>
             <img
               className={classes.cover}
-              src={`${comic.images[0].path}.${comic.images[0].extension}`}
+              src={
+                comic.images.length
+                  ? `${comic.images[0].path}.${comic.images[0].extension}`
+                  : `${comic.thumbnail.path}.${comic.thumbnail.extension}`}
               alt={comic.title} />
           </div>
           <div className={classes.comicInfo}>
@@ -150,7 +186,7 @@ function Details({ history, dispatch }) {
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={() => dispatch(ShoppingCartActions.addComicToShoppingCart(comic))}
+                onClick={() => addToShoppingCart(comic)}
                 endIcon={<ShoppingCartOutlined />}
               >
                 Comprar

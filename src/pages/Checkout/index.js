@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import * as ShoppingCartActions from '../../store/actions'
 import {
+  Snackbar,
   Button,
   Container,
   List,
@@ -13,6 +14,7 @@ import {
   Typography,
   IconButton
 } from '@material-ui/core'
+import MuiAlert from '@material-ui/lab/Alert'
 import { DeleteOutlined } from '@material-ui/icons'
 import { HeroContent } from '../../components'
 import { makeStyles } from '@material-ui/core/styles'
@@ -47,12 +49,34 @@ const useStyle = makeStyles(() => ({
   }
 }))
 
+
 function Checkout({ history, comics, dispatch }) {
   const classes = useStyle()
 
+  const [open, setOpen] = useState(false)
+
+  const handleShowSnackbar = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpen(false)
+  }
+
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />
+  }
+
   function checkout() {
-    dispatch(ShoppingCartActions.checkoutShoppingCart())
-    history.push('/')
+    handleShowSnackbar()
+    setTimeout(() => {
+      dispatch(ShoppingCartActions.checkoutShoppingCart())
+      history.push('/')
+    }, 1500)
   }
 
   function totalValue() {
@@ -131,6 +155,11 @@ function Checkout({ history, comics, dispatch }) {
         </Typography>
       )}
       </Container>
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Compra realizada com sucesso!
+        </Alert>
+      </Snackbar>
     </Fragment>
   )
 }

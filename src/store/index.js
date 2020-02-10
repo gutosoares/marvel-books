@@ -3,7 +3,6 @@ import { createStore } from 'redux'
 const INITIAL_STATE = []
 
 function reducer(state = INITIAL_STATE, action) {
-  console.log(action)
 
   switch(action.type) {
     case 'ADD_SHOPPING_CART':
