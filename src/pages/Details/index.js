@@ -134,7 +134,8 @@ function Details({ history, dispatch }) {
               src={
                 comic.images.length
                   ? `${comic.images[0].path}.${comic.images[0].extension}`
-                  : `${comic.thumbnail.path}.${comic.thumbnail.extension}`}
+                  : `${comic.thumbnail.path}.${comic.thumbnail.extension}`
+              }
               alt={comic.title} />
           </div>
           <div className={classes.comicInfo}>
@@ -189,7 +190,7 @@ function Details({ history, dispatch }) {
                 onClick={() => addToShoppingCart(comic)}
                 endIcon={<ShoppingCartOutlined />}
               >
-                Comprar
+                Adicionar ao carrinho
               </Button>
             </div>
           </div>

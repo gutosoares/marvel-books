@@ -153,7 +153,7 @@ function Main({ history, dispatch }) {
                       variant="contained"
                       onClick={() => addToShoppingCart(comic)}
                     >
-                      Comprar
+                      Adicionar ao carrinho
                     </Button>
                   </CardActions>
                 </Card>
