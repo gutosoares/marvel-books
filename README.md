@@ -1,6 +1,8 @@
 ## 💻 Projeto
 
-Marvel Comics é um projetinho simples para realizar a compra de quadrinhos da Marvel.
+> Marvel Comics é um projetinho simples para realizar a compra de quadrinhos da Marvel.
+
+![Demo](demo/demo.gif)
 
 ## :rocket: Tecnologias
 
