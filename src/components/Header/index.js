@@ -24,6 +24,9 @@ const useStyles = makeStyles(() => ({
     textDecoration: 'none',
     flex: 1,
     overflow: 'inherit'
+  },
+  link: {
+    textDecoration: 'none'
   }
 }))
 
@@ -34,7 +37,7 @@ function Header({ comics }) {
     <Fragment>
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
-          <Link to="/">
+          <Link to="/" className={classes.link}>
             <Typography
               component="h1"
               variant="h4"

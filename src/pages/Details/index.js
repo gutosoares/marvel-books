@@ -18,14 +18,13 @@ import { fetchComicById } from '../../services/comics'
 const useStyle = makeStyles(theme => ({
   comicDetail: {
     display: 'flex',
+    justifyContent: 'center',
     background: '#121212',
-    flex: 1,
     padding: theme.spacing(4, 4)
   },
   comicImage: {
-    maxWidth: 350,
-    maxHeight: 550,
-    marginRight: theme.spacing(2)
+    maxWidth: 650,
+    maxHeight: 800,
   },
   cover: {
     objectFit: 'contain',
@@ -126,9 +125,9 @@ function Details({ history, dispatch }) {
           Quadrinho adicionado ao carrinho de compras
         </Alert>
       </Snackbar>
-      <Container maxWidth="lg">
-        <div className={classes.comicDetail}>
-          <div className={classes.comicImage}>
+      <Container maxWidth="md">
+        <Grid container spacing={2} className={classes.comicDetail}>
+          <Grid item xs={12} sm={12} md={6} className={classes.comicImage}>
             <img
               className={classes.cover}
               src={
@@ -137,45 +136,43 @@ function Details({ history, dispatch }) {
                   : `${comic.thumbnail.path}.${comic.thumbnail.extension}`
               }
               alt={comic.title} />
-          </div>
-          <div className={classes.comicInfo}>
-            <div>
-              <Typography variant="subtitle2" component="h4">
-                Título:
-              </Typography>
-              <Typography variant="h6" component="h2" gutterBottom>
-                {comic.title}
-              </Typography>
-              <Typography variant="subtitle2" component="h4">
-                Descrição:
-              </Typography>
-              <Typography variant="h6" component="h2" gutterBottom>
-                {comic.description ? comic.description : '-'}
-              </Typography>
-              <Typography variant="subtitle2" component="h4">
-                {comic.creators.available >= 2 ? 'Autores' : 'Autor'}
-              </Typography>
-              <Grid container spacing={1}>
-                {comic.creators.items.map(author => (
-                  <Grid item xs={12} sm={6} md={4} key={author.name}>
-                    <div className={classes.comicAuthor}>
-                      <Typography className={classes.comicAuthorName} variant="h6" component="h2">
-                        {author.name}
-                      </Typography>
-                      <Typography variant="subtitle2" component="h4">
-                        {author.role}
-                      </Typography>
-                    </div>
-                  </Grid>
-                ))}
-              </Grid>
-              <Typography variant="subtitle2" component="h4">
-                Preço:
-              </Typography>
-              <Typography variant="h6" component="h2" gutterBottom>
-                {`$${comic.prices[0].price}`}
-              </Typography>
-            </div>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6} className={classes.comicInfo}>
+            <Typography variant="subtitle2" component="h4">
+              Título:
+            </Typography>
+            <Typography variant="h6" component="h2" gutterBottom>
+              {comic.title}
+            </Typography>
+            <Typography variant="subtitle2" component="h4">
+              Descrição:
+            </Typography>
+            <Typography variant="h6" component="h2" gutterBottom>
+              {comic.description ? comic.description : '-'}
+            </Typography>
+            <Typography variant="subtitle2" component="h4">
+              {comic.creators.available >= 2 ? 'Autores' : 'Autor'}
+            </Typography>
+            <Grid container spacing={1}>
+              {comic.creators.items.map(author => (
+                <Grid item xs={12} sm={6} md={6} key={author.name}>
+                  <div className={classes.comicAuthor}>
+                    <Typography className={classes.comicAuthorName} variant="h6" component="h2">
+                      {author.name}
+                    </Typography>
+                    <Typography variant="subtitle2" component="h4">
+                      {author.role}
+                    </Typography>
+                  </div>
+                </Grid>
+              ))}
+            </Grid>
+            <Typography variant="subtitle2" component="h4">
+              Preço:
+            </Typography>
+            <Typography variant="h6" component="h2" gutterBottom>
+              {`$${comic.prices[0].price}`}
+            </Typography>
             <div className={classes.comicActions}>
               <Button
                 color="primary"
@@ -193,8 +190,8 @@ function Details({ history, dispatch }) {
                 Adicionar ao carrinho
               </Button>
             </div>
-          </div>
-        </div>
+          </Grid>
+        </Grid>
       </Container>
     </Fragment>
   )

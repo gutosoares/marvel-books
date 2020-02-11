@@ -54,8 +54,10 @@ function Checkout({ history, comics, dispatch }) {
   const classes = useStyle()
 
   const [open, setOpen] = useState(false)
+  const [message, setMessage] = useState(false)
 
-  const handleShowSnackbar = () => {
+  const handleShowSnackbar = (message) => {
+    setMessage(message)
     setOpen(true);
   };
 
@@ -72,7 +74,7 @@ function Checkout({ history, comics, dispatch }) {
   }
 
   function checkout() {
-    handleShowSnackbar()
+    handleShowSnackbar('Compra realizada com sucesso!')
     setTimeout(() => {
       dispatch(ShoppingCartActions.checkoutShoppingCart())
       history.push('/')
@@ -83,6 +85,11 @@ function Checkout({ history, comics, dispatch }) {
     return comics.reduce((acc, value) => {
       return acc + value.prices[0].price
     }, 0)
+  }
+
+  function removeItem(index) {
+    handleShowSnackbar('Item removido com sucesso!')
+    dispatch(ShoppingCartActions.removeShoppingCart(index))
   }
 
   return (
@@ -114,7 +121,7 @@ function Checkout({ history, comics, dispatch }) {
                   }
                 />
                 <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="delete" onClick={() => dispatch(ShoppingCartActions.removeShoppingCart(index))}>
+                  <IconButton edge="end" aria-label="delete" onClick={() => removeItem(index)}>
                     <DeleteOutlined />
                   </IconButton>
                 </ListItemSecondaryAction>
@@ -157,7 +164,7 @@ function Checkout({ history, comics, dispatch }) {
       </Container>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
-          Compra realizada com sucesso!
+          {message}
         </Alert>
       </Snackbar>
     </Fragment>

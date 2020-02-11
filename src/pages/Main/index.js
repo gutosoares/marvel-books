@@ -60,8 +60,10 @@ function Main({ history, dispatch }) {
   })
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
+  const [message, setMessage] = useState('')
 
-  const handleShowSnackbar = () => {
+  const handleShowSnackbar = (message) => {
+    setMessage(message)
     setOpen(true);
   };
 
@@ -96,7 +98,7 @@ function Main({ history, dispatch }) {
   }
 
   function addToShoppingCart(comic) {
-    handleShowSnackbar()
+    handleShowSnackbar('Quadrinho adicionado ao carrinho de compras')
     dispatch(ShoppingCartActions.addShoppingCart(comic))
   }
 
@@ -104,7 +106,7 @@ function Main({ history, dispatch }) {
     <Fragment>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
-          Quadrinho adicionado ao carrinho de compras
+          {message}
         </Alert>
       </Snackbar>
       <HeroContent

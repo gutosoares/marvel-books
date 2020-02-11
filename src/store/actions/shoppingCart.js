@@ -1,5 +1,4 @@
 function addShoppingCart(comic) {
-  console.log('ola')
   return {
     type: 'ADD_SHOPPING_CART',
     comic
